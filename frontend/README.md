@@ -1,41 +1,16 @@
-# 🗂️ Team Task Manager
+# React + Vite
 
-A full-stack web application for managing projects and tasks with role-based access control.
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-## 🔗 Live URL
-https://team-task-manager-1-t7hj.onrender.com
+Currently, two official plugins are available:
 
-## 📁 GitHub Repository
-https://github.com/Pratima180/team-task-manager
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
 
-## 🚀 Features
-- Authentication (Signup/Login) with JWT
-- Role-based access (Admin/Member)
-- Project & Team Management
-- Task Creation, Assignment & Status Tracking
-- Dashboard with task stats and overdue alerts
+## React Compiler
 
-## 🛠️ Tech Stack
-- **Frontend:** React + Vite + Tailwind CSS
-- **Backend:** Node.js + Express
-- **Database:** PostgreSQL (Supabase)
-- **Deployment:** Render.com
+The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
-## ⚙️ Local Setup
+## Expanding the ESLint configuration
 
-### Backend
-```bash
-cd backend
-npm install
-# Create .env file with DATABASE_URL and JWT_SECRET
-node server.js
-```
-
-### Frontend
-```bash
-cd frontend
-npm install
-npm run dev
-```
-
-## 📌 Environment Variables
+If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
