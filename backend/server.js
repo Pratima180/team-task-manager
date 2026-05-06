@@ -1,11 +1,11 @@
-require('dotenv').config();
-console.log('DB URL:', process.env.DATABASE_URL);
 const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
 
 const app = express();
-app.use(cors());
+app.use(cors({
+  origin: 'https://team-task-manager-1-t7hj.onrender.com'
+}));
 app.use(express.json());
 
 app.use('/api/auth', require('./routes/auth'));
