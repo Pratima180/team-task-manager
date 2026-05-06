@@ -33,7 +33,7 @@ export default function Login() {
           Login
         </button>
         <p className="text-center mt-4 text-sm">
-          Account nahi hai? <Link to="/signup" className="text-blue-600">Signup</Link>
+          Don't have an account? <Link to="/signup" className="text-blue-600">Signup</Link>
         </p>
       </div>
     </div>

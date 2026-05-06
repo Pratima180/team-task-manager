@@ -58,7 +58,7 @@ export default function Dashboard() {
 
         {data.overdue.length === 0 && (
           <div className="bg-green-50 border border-green-200 rounded-xl p-4 text-green-600">
-            ✅ Koi overdue task nahi hai!
+            ✅ No overdue tasks!
           </div>
         )}
       </div>
