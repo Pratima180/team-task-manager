@@ -3,61 +3,58 @@ import { Link } from 'react-router-dom';
 import api from '../api/axios';
 import { useAuth } from '../context/AuthContext';
 
-export default function Dashboard() {
-  const { user, logout } = useAuth();
-  const [data, setData] = useState({ stats: [], overdue: [] });
+export default function Projects() {
+  const { user } = useAuth();
+  const [projects, setProjects] = useState([]);
+  const [form, setForm] = useState({ name: '', description: '' });
+  const [show, setShow] = useState(false);
 
-  useEffect(() => {
-    api.get('/api/tasks/dashboard').then(r => setData(r.data)).catch(console.error);
-  }, []);
+  const fetchProjects = () => api.get('/api/projects').then(r => setProjects(r.data));
 
-  const statusColor = { todo: 'bg-yellow-100', in_progress: 'bg-blue-100', done: 'bg-green-100' };
+  useEffect(() => { fetchProjects(); }, []);
+
+  const createProject = async () => {
+    await api.post('/api/projects', form);
+    setForm({ name: '', description: '' });
+    setShow(false);
+    fetchProjects();
+  };
 
   return (
     <div className="min-h-screen bg-gray-100">
       <div className="bg-white shadow px-6 py-4 flex justify-between items-center">
         <h1 className="text-xl font-bold">🗂️ Task Manager</h1>
-        <div className="flex gap-4 items-center">
-          <Link to="/projects" className="text-blue-600 hover:underline">Projects</Link>
-          <span className="text-gray-600">👤 {user?.name} ({user?.role})</span>
-          <button onClick={logout} className="bg-red-500 text-white px-3 py-1 rounded text-sm">
-            Logout
-          </button>
-        </div>
+        <Link to="/dashboard" className="text-blue-600">← Dashboard</Link>
       </div>
-
       <div className="p-6">
-        <h2 className="text-2xl font-bold mb-4">Dashboard</h2>
-
-        <div className="grid grid-cols-3 gap-4 mb-6">
-          {['todo', 'in_progress', 'done'].map(s => {
-            const found = data.stats.find(x => x.status === s);
-            return (
-              <div key={s} className={`p-4 rounded-xl shadow text-center ${statusColor[s]}`}>
-                <div className="text-3xl font-bold">{found?.count || 0}</div>
-                <div className="text-gray-600 capitalize">{s.replace('_', ' ')}</div>
-              </div>
-            );
-          })}
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-2xl font-bold">Projects</h2>
+          {user?.role === 'admin' && (
+            <button onClick={() => setShow(!show)}
+              className="bg-blue-600 text-white px-4 py-2 rounded">
+              + New Project
+            </button>
+          )}
         </div>
-
-        {data.overdue.length > 0 && (
-          <div className="bg-red-50 border border-red-200 rounded-xl p-4">
-            <h3 className="font-bold text-red-600 mb-2">⚠️ Overdue Tasks ({data.overdue.length})</h3>
-            {data.overdue.map(t => (
-              <div key={t.id} className="py-2 border-b flex justify-between">
-                <span>{t.title}</span>
-                <span className="text-red-500 text-sm">Due: {t.due_date?.slice(0, 10)}</span>
-              </div>
-            ))}
+        {show && (
+          <div className="bg-white p-4 rounded-xl shadow mb-4">
+            <input className="w-full border p-2 rounded mb-2" placeholder="Project Name"
+              value={form.name} onChange={e => setForm({...form, name: e.target.value})} />
+            <input className="w-full border p-2 rounded mb-2" placeholder="Description"
+              value={form.description} onChange={e => setForm({...form, description: e.target.value})} />
+            <button onClick={createProject}
+              className="bg-green-600 text-white px-4 py-2 rounded">Create</button>
           </div>
         )}
-
-        {data.overdue.length === 0 && (
-          <div className="bg-green-50 border border-green-200 rounded-xl p-4 text-green-600">
-            ✅ No overdue tasks!
-          </div>
-        )}
+        <div className="grid grid-cols-2 gap-4">
+          {projects.map(p => (
+            <Link to={`/projects/${p.id}`} key={p.id}
+              className="bg-white p-4 rounded-xl shadow hover:shadow-md transition">
+              <h3 className="font-bold text-lg">{p.name}</h3>
+              <p className="text-gray-500 text-sm">{p.description}</p>
+            </Link>
+          ))}
+        </div>
       </div>
     </div>
   );
