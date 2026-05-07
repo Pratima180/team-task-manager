@@ -4,7 +4,7 @@ require('dotenv').config();
 
 const app = express();
 app.use(cors({
-  origin: 'https://team-task-manager-1-t7hj.onrender.com'
+  origin: ['https://team-task-manager-1-t7hj.onrender.com', 'http://localhost:5173']
 }));
 app.use(express.json());
 
